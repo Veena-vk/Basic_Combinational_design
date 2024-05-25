@@ -24,4 +24,35 @@ module seven_segment_decoder (
 
 endmodule
 
+// Designing decoding logic using simplified boolean equations
 
+module seven_segment_decoder (
+    input [3:0] binary_input,  // 4-bit binary input
+    output [6:0] segments      // 7-bit output for the segments (a-g)
+);
+
+    wire A, B, C, D;
+    assign {A, B, C, D} = binary_input;
+
+    // Segment a
+    assign segments[0] = (~A & ~B & C) | (A & B) | (~A & D);
+    
+    // Segment b
+    assign segments[1] = (A & B) | (~B & C & ~D) | (B & ~C & D);
+    
+    // Segment c
+    assign segments[2] = (A & B & ~C) | (~B & ~D);
+    
+    // Segment d
+    assign segments[3] = (A & ~B & C) | (~A & B & D) | (B & ~C & ~D);
+    
+    // Segment e
+    assign segments[4] = ~A & D;
+    
+    // Segment f
+    assign segments[5] = (A & B & ~D) | (~B & ~C & D) | (~A & ~C);
+    
+    // Segment g
+    assign segments[6] = (~A & ~B & ~C) | (A & B & ~D) | (~B & C);
+
+endmodule
